@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'add_new_host_widget.dart';
 import 'host.dart';
 import 'host_list_provider.dart';
 
@@ -28,18 +29,24 @@ class _HostListWidgetState extends State<HostListWidget> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _addHost,
+        onPressed:() {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AddNewHostWidget(
+                  hostListProvider: widget.hostListProvider,
+                  context: context,
+                  completion: () {
+                    setState(() {});
+                    },
+              );
+            });
+          },
         tooltip: "Add Host",
         child: Icon(Icons.add),
       ),
     );
   }
 
-  // Private methods
-  void _addHost() {
-    setState(() {
-      widget.hostListProvider.addHost(Host("New Host"));
-    });
-  }
 }
 
