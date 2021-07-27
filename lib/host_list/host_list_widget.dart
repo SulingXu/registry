@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'add_new_host_widget.dart';
-import 'host.dart';
 import 'host_list_provider.dart';
 
 // Host list view
