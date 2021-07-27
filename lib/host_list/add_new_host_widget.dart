@@ -21,12 +21,10 @@ class _AddNewHostWidgetState extends State<AddNewHostWidget> {
   Widget build(BuildContext context) {
 
     Widget savedHostButton = ElevatedButton(
-      child: Text("Saved"),
+      child: Text("Save"),
       onPressed: () {
         if (_formKey.currentState!.validate()) {
-          _formKey.currentState!.save();
           _addHost();
-          // if(hostNameController.text != '')
           Navigator.of(context).pop();
         }
       },
@@ -68,8 +66,12 @@ class _AddNewHostWidgetState extends State<AddNewHostWidget> {
                     border: UnderlineInputBorder(),
                     hintText: 'Enter the host name',
                   ),
-                  validator: (String? value) =>
-                      value!.isEmpty ? 'Host name cannot be empty' : null,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
                 ))
               ],
               )),
@@ -106,11 +108,8 @@ class _AddNewHostWidgetState extends State<AddNewHostWidget> {
 
   // Private methods
   void _addHost() {
-    setState(() {
       widget.hostListProvider.addHost(
           Host(_hostNameController.text));
       widget.completion(); // call the completion handler / function to trigger list updates
-    });
-    print(widget.hostListProvider.provideHosts());
   }
 }
