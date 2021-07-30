@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'add_new_host_widget.dart';
 import 'host_list_provider.dart';
+import '../guest_list/gust_info_input.dart';
 
 // Host list view
 class HostListWidget extends StatefulWidget {
@@ -24,9 +25,16 @@ class _HostListWidgetState extends State<HostListWidget> {
           // Get a specific host
           final host = widget.hostListProvider.provideHosts()[index];
           // Return a list tile widget
-          return ListTile(title: Text(host.name));
+          return ListTile(
+            title: Text(host.name),
+            onTap:(){
+              Navigator.push(context,
+                  new MaterialPageRoute(builder: (context) => new GuestInfoInput(chosenHostName: host.name)));
+            }
+          );
         },
       ),
+
       floatingActionButton: FloatingActionButton(
         onPressed:() {
           showDialog(
