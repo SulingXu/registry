@@ -34,7 +34,6 @@ class _HostListWidgetState extends State<HostListWidget> {
           );
         },
       ),
-
       floatingActionButton: FloatingActionButton(
         onPressed:() {
           showDialog(
