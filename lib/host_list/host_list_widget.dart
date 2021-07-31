@@ -54,6 +54,5 @@ class _HostListWidgetState extends State<HostListWidget> {
       ),
     );
   }
-
 }
 
