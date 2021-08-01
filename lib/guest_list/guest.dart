@@ -1,6 +1,6 @@
 //guest model
 import 'package:registry/guest_list/guest_status.dart';
-import 'GuestStatus.dart';
+import 'guest_status.dart';
 
 class Guest {
   String firstName;
