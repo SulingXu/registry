@@ -4,6 +4,17 @@ import 'guest.dart';
 import 'guest_list_widget.dart';
 import 'guest_list_provider.dart';
 
+final TextStyle textStyle = TextStyle(
+  fontWeight: FontWeight.bold,
+  fontSize: 18,
+);
+Widget text(String txtString){
+  return Text(
+      txtString,
+      style: textStyle
+  );
+}
+
 class GuestInfoInputWidget extends StatefulWidget {
   const GuestInfoInputWidget({Key? key, required this.chosenHostName}) : super(key: key);
   final String chosenHostName;
@@ -17,10 +28,6 @@ class _GuestInfoInputWidgetState extends State<GuestInfoInputWidget> {
   final _guestFirstNameController = TextEditingController();
   final GuestListProvider _guestListProvider = GuestListProvider();
   final ButtonStyle buttonStyle = ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 18), padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15));
-  final TextStyle textStyle = TextStyle(
-    fontWeight: FontWeight.bold,
-    fontSize: 18,
-  );
   final String _firstNameTxt = 'First Name:';
   final String _lastNameTxt = 'Last Name:';
   final String _checkInTxt = 'Check in';
@@ -29,12 +36,6 @@ class _GuestInfoInputWidgetState extends State<GuestInfoInputWidget> {
   final String _alertDialogTxt = 'The information cannot be left empty! Please input or choose all of them.';
   Guest _guest = Guest();
 
-  Widget text(String txtString){
-    return Text(
-      txtString,
-      style: textStyle
-    );
-  }
   Widget textFormField(TextEditingController controller, String hintText) {
     return TextFormField(
       controller: controller,
