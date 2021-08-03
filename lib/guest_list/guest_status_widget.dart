@@ -3,8 +3,8 @@ import 'guest_status.dart';
 import 'guest.dart';
 
 class GuestStatusWidget extends StatefulWidget {
-  const GuestStatusWidget({Key? key, required this.oneGuest}) : super(key: key);
-  final Guest oneGuest;
+  const GuestStatusWidget({Key? key, required this.guest}) : super(key: key);
+  final Guest guest;
   @override
   _GuestStatusWidgetState createState() => _GuestStatusWidgetState();
 }
@@ -19,10 +19,10 @@ class _GuestStatusWidgetState extends State<GuestStatusWidget> {
           children: [
             Radio<GuestStatus>(
               value: GuestStatus.play,
-              groupValue: widget.oneGuest.status,
+              groupValue: widget.guest.status,
               onChanged: (GuestStatus? value) {
                 setState(() {
-                  widget.oneGuest.status = value;
+                  widget.guest.status = value!;
                 });
               },
             ),
@@ -37,10 +37,10 @@ class _GuestStatusWidgetState extends State<GuestStatusWidget> {
 
             Radio<GuestStatus>(
               value: GuestStatus.watch,
-              groupValue: widget.oneGuest.status,
+              groupValue: widget.guest.status,
               onChanged: (GuestStatus? value) {
                 setState(() {
-                  widget.oneGuest.status = value;
+                  widget.guest.status = value!;
                 });
               },
             ),

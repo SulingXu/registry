@@ -5,12 +5,12 @@ import 'guest_status.dart';
 class Guest {
   String firstName;
   String lastName;
-  GuestStatus? status;
-  DateTime checkInTime;
-  DateTime checkOutTime;
-  final double fee;
+  String? chosenHostName;
+  GuestStatus status;
+  DateTime? checkInTime;
+  DateTime? checkOutTime;
+  double fee;
 
-  Guest({this.firstName = "", this.lastName = "", this.status = null,
-    DateTime? checkInTime, DateTime? checkOutTime, this.fee = 0}): this.checkInTime = checkInTime ?? DateTime.now(), this.checkOutTime = checkOutTime ?? DateTime.now();
-
+  Guest({this.firstName = "", this.lastName = "", this.chosenHostName = null, this.status = GuestStatus.play,
+    this.checkInTime = null, this.checkOutTime = null, this.fee = 0});
 }
