@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'add_new_host_widget.dart';
 import 'host_list_provider.dart';
-import '../guest_list/gust_info_input.dart';
+import '../guest_list/guest_info_input_widget.dart';
 
 // Host list view
 class HostListWidget extends StatefulWidget {
@@ -29,7 +29,7 @@ class _HostListWidgetState extends State<HostListWidget> {
             title: Text(host.name),
             onTap:(){
               Navigator.push(context,
-                  new MaterialPageRoute(builder: (context) => new GuestInfoInput(chosenHostName: host.name)));
+                  new MaterialPageRoute(builder: (context) => new GuestInfoInputWidget(chosenHostName: host.name)));
             }
           );
         },
