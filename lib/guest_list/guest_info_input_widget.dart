@@ -21,11 +21,12 @@ class _GuestInfoInputWidgetState extends State<GuestInfoInputWidget> {
     fontWeight: FontWeight.bold,
     fontSize: 18,
   );
-  final String firstNameTxt = 'First Name:';
-  final String lastNameTxt = 'Last Name:';
-  final String checkInTxt = 'Check in';
-  final String firstNameInputHintText = 'Enter your first name';
-  final String lastNameInputHintText = 'Enter your last name';
+  final String _firstNameTxt = 'First Name:';
+  final String _lastNameTxt = 'Last Name:';
+  final String _checkInTxt = 'Check in';
+  final String _firstNameInputHintText = 'Enter your first name';
+  final String _lastNameInputHintText = 'Enter your last name';
+  final String _alertDialogTxt = 'The information cannot be left empty! Please input or choose all of them.';
   Guest _guest = Guest();
 
   Widget text(String txtString){
@@ -65,11 +66,11 @@ class _GuestInfoInputWidgetState extends State<GuestInfoInputWidget> {
         children: <Widget>[
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-            child: nameInputColumn(firstNameTxt, _guestFirstNameController, firstNameInputHintText),
+            child: nameInputColumn(_firstNameTxt, _guestFirstNameController, _firstNameInputHintText),
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-            child: nameInputColumn(lastNameTxt, _guestLastNameController, lastNameInputHintText),
+            child: nameInputColumn(_lastNameTxt, _guestLastNameController, _lastNameInputHintText),
           ),
           GuestStatusWidget(guest: _guest),
           Padding(
@@ -77,7 +78,7 @@ class _GuestInfoInputWidgetState extends State<GuestInfoInputWidget> {
             child: ElevatedButton(
               style: buttonStyle,
               onPressed: _onPressed,
-              child: Text(checkInTxt),
+              child: Text(_checkInTxt),
             )
           ),
         ],
@@ -91,7 +92,6 @@ class _GuestInfoInputWidgetState extends State<GuestInfoInputWidget> {
       _guest.lastName = _guestLastNameController.text;
       _guest.firstName = _guestLastNameController.text;
       _guestListProvider.addGuest(_guest);
-      print(_guestListProvider.provideGuests()[0].lastName);
       Navigator.push(
           context,
           new MaterialPageRoute(builder: (context) => new GuestListWidget(guestListProvider: _guestListProvider))
@@ -101,7 +101,7 @@ class _GuestInfoInputWidgetState extends State<GuestInfoInputWidget> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            content: Text("The information cannot be left empty! Please input or choose all of them."),
+            content: Text(_alertDialogTxt),
           );
         },
       );
