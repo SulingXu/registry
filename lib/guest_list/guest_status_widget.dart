@@ -22,7 +22,7 @@ class _GuestStatusWidgetState extends State<GuestStatusWidget> {
               groupValue: widget.guest.status,
               onChanged: (GuestStatus? value) {
                 setState(() {
-                  widget.guest.status = value!;
+                  widget.guest.status = value ?? GuestStatus.play;
                 });
               },
             ),
@@ -40,7 +40,7 @@ class _GuestStatusWidgetState extends State<GuestStatusWidget> {
               groupValue: widget.guest.status,
               onChanged: (GuestStatus? value) {
                 setState(() {
-                  widget.guest.status = value!;
+                  widget.guest.status = value ?? GuestStatus.watch;
                 });
               },
             ),

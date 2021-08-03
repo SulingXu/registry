@@ -17,11 +17,11 @@ class _GuestListWidgetState extends State<GuestListWidget> {
       body: ListView.builder(
         itemCount: widget.guestListProvider.provideGuests().length,
         itemBuilder: (context, index) {
-          // Get a specific host
+          // Get a specific list
           final guest = widget.guestListProvider.provideGuests()[index];
           // Return a list tile widget
           return ListTile(
-            title: Text(guest.chosenHostName! + ' ' + guest.lastName + ' ' + guest.firstName),
+            title: Text(guest.chosenHostName ?? ''),
           );
         },
       )
