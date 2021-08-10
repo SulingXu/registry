@@ -17,8 +17,9 @@ Widget text(String txtString){
 }
 
 class GuestInfoInputWidget extends StatefulWidget {
-  const GuestInfoInputWidget({Key? key, required this.chosenHostName}) : super(key: key);
+  const GuestInfoInputWidget({Key? key, required this.chosenHostName, required this.guestListProvider}) : super(key: key);
   final String chosenHostName;
+  final GuestListProvider guestListProvider;
 
   @override
   _GuestInfoInputWidgetState createState() => _GuestInfoInputWidgetState();
@@ -27,7 +28,6 @@ class GuestInfoInputWidget extends StatefulWidget {
 class _GuestInfoInputWidgetState extends State<GuestInfoInputWidget> {
   final _guestLastNameController = TextEditingController();
   final _guestFirstNameController = TextEditingController();
-  final GuestListProvider _guestListProvider = GuestListProvider();
   final String _firstNameTxt = 'First Name:';
   final String _lastNameTxt = 'Last Name:';
   final String _checkInTxt = 'Check in';
@@ -92,13 +92,13 @@ class _GuestInfoInputWidgetState extends State<GuestInfoInputWidget> {
       _guest.chosenHostName = widget.chosenHostName;
       _guest.lastName = _guestLastNameController.text;
       _guest.firstName = _guestLastNameController.text;
-      _guestListProvider.addGuest(_guest);
+      widget.guestListProvider.addGuest(_guest);
       Navigator.push(
           context,
-          new MaterialPageRoute(builder: (context) => new GuestListWidget(guestListProvider: _guestListProvider))
+          new MaterialPageRoute<void>(builder: (context) => new GuestListWidget(guestListProvider: widget.guestListProvider))
       );
     } else {
-      showDialog(
+      showDialog<void>(
         context: context,
         builder: (context) {
           return AlertDialog(

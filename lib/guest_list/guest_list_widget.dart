@@ -19,7 +19,7 @@ class _GuestListWidgetState extends State<GuestListWidget> {
       appBar: AppBar(title: Text("Guest Records")),
       body: Column (
         children: [
-          GuestSelectDate(completion: () {
+          DateSelectionWidget(completion: () {
             setState(() {});
           }),
           Divider(),
@@ -39,7 +39,7 @@ class _GuestListWidgetState extends State<GuestListWidget> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(context,
-            new MaterialPageRoute(builder: (context) => new MyApp()));
+            new MaterialPageRoute<void>(builder: (context) => new MyApp(guestListProvider: widget.guestListProvider)));
         },
         child: Icon(Icons.add),
       ),
