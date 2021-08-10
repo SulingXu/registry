@@ -12,43 +12,42 @@ class GuestItemWidget extends StatefulWidget {
 }
 
 class _GuestItemWidgetState extends State<GuestItemWidget> {
-  final String _guestNameTxt = 'Guest Name:';
-  final String _hostNameTxt = 'Host Name:';
-  final String _statusTxt = 'Status:';
+  final String _guestNameTextPrefix = 'Guest Name:';
+  final String _hostNameTextPrefix = 'Host Name:';
+  final String _statusTextPrefix = 'Status:';
 
-  Widget nameShowRow(String txtString, String showString){
+  Widget textRowWith(String prefix, String showString) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        text(txtString),
+        text(prefix),
         const SizedBox(width: 10),
         text(showString),
       ],
     );
   }
-
+  Widget paddingAroundText(String prefix, String showString) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      child: textRowWith(prefix, showString),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     String _guestName = widget.guest.firstName + ' ' + widget.guest.lastName;
-    String _status = (widget.guest.status==GuestStatus.play)? 'play':'watch';
+    String _status = (widget.guest.status == GuestStatus.play) ? 'play' : 'watch';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-          child: nameShowRow(_guestNameTxt, _guestName),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: nameShowRow(_hostNameTxt, widget.guest.chosenHostName ?? ' '),
-        ),
+        paddingAroundText(_guestNameTextPrefix, _guestName),
+        paddingAroundText(_hostNameTextPrefix, widget.guest.chosenHostName ?? ' '),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              nameShowRow(_statusTxt, _status),
+              textRowWith(_statusTextPrefix, _status),
               const SizedBox(width: 50),
               GuestCheckOut(guest: widget.guest),//checkOutButton
             ],
@@ -66,10 +65,10 @@ class _GuestItemWidgetState extends State<GuestItemWidget> {
     );
   }
 
-  String _getFormattedTime(DateTime? time){
-    if (time == null){
+  String _getFormattedTime(DateTime? time) {
+    if (time == null) {
       return '---';
-    }else{
+    } else {
       return "${time.hour.toString().padLeft(2,'0')}:${time.minute.toString().padLeft(2,'0')}:${time.second.toString().padLeft(2,'0')}";
     }
   }
