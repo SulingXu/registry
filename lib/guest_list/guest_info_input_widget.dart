@@ -8,6 +8,7 @@ final TextStyle textStyle = TextStyle(
   fontWeight: FontWeight.bold,
   fontSize: 18,
 );
+final ButtonStyle buttonStyle = ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 18), padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15));
 Widget text(String txtString){
   return Text(
       txtString,
@@ -27,7 +28,6 @@ class _GuestInfoInputWidgetState extends State<GuestInfoInputWidget> {
   final _guestLastNameController = TextEditingController();
   final _guestFirstNameController = TextEditingController();
   final GuestListProvider _guestListProvider = GuestListProvider();
-  final ButtonStyle buttonStyle = ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 18), padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15));
   final String _firstNameTxt = 'First Name:';
   final String _lastNameTxt = 'Last Name:';
   final String _checkInTxt = 'Check in';
