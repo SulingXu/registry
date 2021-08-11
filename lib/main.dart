@@ -9,9 +9,9 @@ void main() {
 
 class MyApp extends StatelessWidget {
   // Host list provider
-  final HostListProvider? hostListProvider;
-  final GuestListProvider? guestListProvider;
-  MyApp({this.hostListProvider, this.guestListProvider});
+  final _hostListProvider = HostListProvider();
+  // Guest list provider
+  final _guestListProvider = GuestListProvider();
 
   // This widget is the root of your application.
   @override
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HostListWidget(hostListProvider: hostListProvider ?? HostListProvider(), guestListProvider: guestListProvider ?? GuestListProvider()),
+      home: HostListWidget(hostListProvider: _hostListProvider, guestListProvider: _guestListProvider),
     );
   }
 }
