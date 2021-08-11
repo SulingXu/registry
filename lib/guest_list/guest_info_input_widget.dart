@@ -3,18 +3,7 @@ import 'guest_status_widget.dart';
 import 'guest.dart';
 import 'guest_list_widget.dart';
 import 'guest_list_provider.dart';
-
-final TextStyle textStyle = TextStyle(
-  fontWeight: FontWeight.bold,
-  fontSize: 18,
-);
-final ButtonStyle buttonStyle = ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 18), padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15));
-Widget text(String txtString){
-  return Text(
-      txtString,
-      style: textStyle
-  );
-}
+import '../styles.dart';
 
 class GuestInfoInputWidget extends StatefulWidget {
   const GuestInfoInputWidget({Key? key, required this.chosenHostName, required this.guestListProvider}) : super(key: key);
@@ -49,7 +38,7 @@ class _GuestInfoInputWidgetState extends State<GuestInfoInputWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        text(txtString),
+
         Container(
           child: textFormField(controller, hintText),
         ),
@@ -77,7 +66,7 @@ class _GuestInfoInputWidgetState extends State<GuestInfoInputWidget> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
             child: ElevatedButton(
-              style: buttonStyle,
+              style: Styles.buttonStyle,
               onPressed: _onPressed,
               child: Text(_checkInTxt),
             )

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:registry/guest_list/guest_check_out.dart';
 import 'package:registry/guest_list/guest_status.dart';
-import 'package:registry/guest_list/guest_info_input_widget.dart';
 import 'package:registry/guest_list/guest.dart';
+import 'package:registry/styles.dart';
 
 class GuestItemWidget extends StatefulWidget {
   GuestItemWidget({Key? key, required this.guest}) : super(key: key);
@@ -20,9 +20,9 @@ class _GuestItemWidgetState extends State<GuestItemWidget> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        text(prefix),
+        Styles.text(prefix),
         const SizedBox(width: 10),
-        text(showString),
+        Styles.text(showString),
       ],
     );
   }
@@ -57,7 +57,7 @@ class _GuestItemWidgetState extends State<GuestItemWidget> {
           padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
           child: Align(
             alignment: Alignment.center,
-            child: text("From " + _getFormattedTime(widget.guest.checkInTime) + " to " + _getFormattedTime(widget.guest.checkOutTime),)
+            child: Styles.text("From " + _getFormattedTime(widget.guest.checkInTime) + " to " + _getFormattedTime(widget.guest.checkOutTime),)
           ),
         ),
         Divider(),
