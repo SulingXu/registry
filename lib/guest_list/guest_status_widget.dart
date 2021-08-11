@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import '../styles.dart';
 import 'guest_status.dart';
 import 'guest.dart';
-import 'guest_info_input_widget.dart';
 
 class GuestStatusWidget extends StatefulWidget {
   const GuestStatusWidget({Key? key, required this.guest}) : super(key: key);
   final Guest guest;
+
   @override
   _GuestStatusWidgetState createState() => _GuestStatusWidgetState();
 }
@@ -34,10 +35,10 @@ class _GuestStatusWidgetState extends State<GuestStatusWidget> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           radioButton(GuestStatus.play),
-          text(_playtxt),
+          Styles.text(_playtxt),
           const SizedBox(width: 50),
           radioButton(GuestStatus.watch),
-          text(_watchtxt),
+          Styles.text(_watchtxt),
         ]
       ),
     );

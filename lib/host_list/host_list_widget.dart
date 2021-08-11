@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:registry/guest_list/guest_list_provider.dart';
 import 'add_new_host_widget.dart';
 import 'host_list_provider.dart';
 import '../guest_list/guest_info_input_widget.dart';
 
 // Host list view
 class HostListWidget extends StatefulWidget {
-  const HostListWidget({Key? key, required this.hostListProvider}) : super(key: key);
+  const HostListWidget({Key? key, required this.hostListProvider, required this.guestListProvider}) : super(key: key);
 
   // Dependency: host list provider
   final HostListProvider hostListProvider;
+  final GuestListProvider guestListProvider;
 
   @override
   _HostListWidgetState createState() => _HostListWidgetState();
@@ -29,14 +31,14 @@ class _HostListWidgetState extends State<HostListWidget> {
             title: Text(host.name),
             onTap:(){
               Navigator.push(context,
-                  new MaterialPageRoute(builder: (context) => new GuestInfoInputWidget(chosenHostName: host.name)));
+                  new MaterialPageRoute<void>(builder: (context) => new GuestInfoInputWidget(chosenHostName: host.name, guestListProvider: widget.guestListProvider)));
             }
           );
         },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed:() {
-          showDialog(
+          showDialog<void>(
             context: context,
             builder: (BuildContext context) {
               return AddNewHostWidget(
@@ -49,7 +51,7 @@ class _HostListWidgetState extends State<HostListWidget> {
             });
           },
         tooltip: "Add Host",
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

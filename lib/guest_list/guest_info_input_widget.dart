@@ -3,21 +3,12 @@ import 'guest_status_widget.dart';
 import 'guest.dart';
 import 'guest_list_widget.dart';
 import 'guest_list_provider.dart';
-
-final TextStyle textStyle = TextStyle(
-  fontWeight: FontWeight.bold,
-  fontSize: 18,
-);
-Widget text(String txtString){
-  return Text(
-      txtString,
-      style: textStyle
-  );
-}
+import '../styles.dart';
 
 class GuestInfoInputWidget extends StatefulWidget {
-  const GuestInfoInputWidget({Key? key, required this.chosenHostName}) : super(key: key);
+  const GuestInfoInputWidget({Key? key, required this.chosenHostName, required this.guestListProvider}) : super(key: key);
   final String chosenHostName;
+  final GuestListProvider guestListProvider;
 
   @override
   _GuestInfoInputWidgetState createState() => _GuestInfoInputWidgetState();
@@ -26,8 +17,6 @@ class GuestInfoInputWidget extends StatefulWidget {
 class _GuestInfoInputWidgetState extends State<GuestInfoInputWidget> {
   final _guestLastNameController = TextEditingController();
   final _guestFirstNameController = TextEditingController();
-  final GuestListProvider _guestListProvider = GuestListProvider();
-  final ButtonStyle buttonStyle = ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 18), padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15));
   final String _firstNameTxt = 'First Name:';
   final String _lastNameTxt = 'Last Name:';
   final String _checkInTxt = 'Check in';
@@ -49,7 +38,7 @@ class _GuestInfoInputWidgetState extends State<GuestInfoInputWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        text(txtString),
+
         Container(
           child: textFormField(controller, hintText),
         ),
@@ -77,7 +66,7 @@ class _GuestInfoInputWidgetState extends State<GuestInfoInputWidget> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
             child: ElevatedButton(
-              style: buttonStyle,
+              style: Styles.buttonStyle,
               onPressed: _onPressed,
               child: Text(_checkInTxt),
             )
@@ -92,13 +81,13 @@ class _GuestInfoInputWidgetState extends State<GuestInfoInputWidget> {
       _guest.chosenHostName = widget.chosenHostName;
       _guest.lastName = _guestLastNameController.text;
       _guest.firstName = _guestLastNameController.text;
-      _guestListProvider.addGuest(_guest);
+      widget.guestListProvider.addGuest(_guest);
       Navigator.push(
           context,
-          new MaterialPageRoute(builder: (context) => new GuestListWidget(guestListProvider: _guestListProvider))
+          new MaterialPageRoute<void>(builder: (context) => new GuestListWidget(guestListProvider: widget.guestListProvider))
       );
     } else {
-      showDialog(
+      showDialog<void>(
         context: context,
         builder: (context) {
           return AlertDialog(
