@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
-import 'guest_info_input_widget.dart';
+import 'package:registry/styles.dart';
 
 class DateSelectionWidget extends StatefulWidget {
-  DateSelectionWidget({Key? key, required this.completion}) : super(key: key);
-  final VoidCallback completion;
-  DateTime selectedDate = DateTime.now();
+  const DateSelectionWidget({Key? key, required this.dateChanged}) : super(key: key);
+  final Function(DateTime) dateChanged;
+
   @override
   _DateSelectionWidgetState createState() => _DateSelectionWidgetState();
 }
 
 class _DateSelectionWidgetState extends State<DateSelectionWidget> {
-
+  DateTime _selectedDate = DateTime.now();
   //waits for the date selected by the user
   void _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: widget.selectedDate,
+      initialDate: _selectedDate,
       firstDate: DateTime(2020),
       lastDate: DateTime(2025),
     );
-    if (picked != null && picked !=  widget.selectedDate)
+    if (picked != null && picked !=  _selectedDate)
       setState(() {
-        widget.selectedDate = picked;
+        _selectedDate = picked;
       });
   }
 
@@ -32,7 +32,7 @@ class _DateSelectionWidgetState extends State<DateSelectionWidget> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            text('${ widget.selectedDate.toLocal()}'.split(' ')[0]),
+            Styles.text('${ _selectedDate.toLocal()}'.split(' ')[0]),
             const SizedBox(width: 50),
             IconButton(
               icon: const Icon(
@@ -41,7 +41,7 @@ class _DateSelectionWidgetState extends State<DateSelectionWidget> {
               iconSize: 28,
               onPressed: () {
                 _selectDate(context);
-                widget.completion();
+                widget.dateChanged(_selectedDate);
               },
             ),
           ],
