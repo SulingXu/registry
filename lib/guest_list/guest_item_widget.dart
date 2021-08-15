@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:registry/guest_list/guest_check_out.dart';
+import 'package:registry/guest_list/guest_check_out_alert_dialog.dart';
 import 'package:registry/guest_list/guest_status.dart';
 import 'package:registry/guest_list/guest.dart';
 import 'package:registry/styles.dart';
@@ -15,23 +15,35 @@ class _GuestItemWidgetState extends State<GuestItemWidget> {
   final String _guestNameTextPrefix = 'Guest Name:';
   final String _hostNameTextPrefix = 'Host Name:';
   final String _statusTextPrefix = 'Status:';
+  final String _checkOutButtonTxt = 'Check out';
+  final String _checkedOutButtonTxt = 'Checked out';
 
-  Widget textRowWith(String prefix, String showString) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Styles.text(prefix),
-        const SizedBox(width: 10),
-        Styles.text(showString),
-      ],
+  Widget checkOutButton () {
+    return ElevatedButton(
+      style: widget.guest.hasCheckedOut? Styles.CheckedOutbuttonColor : Styles.unCheckedOutbuttonColor,
+      onPressed: widget.guest.hasCheckedOut ? null : Function,
+      child: Styles.text(widget.guest.hasCheckedOut? _checkedOutButtonTxt: _checkOutButtonTxt),
     );
   }
-  Widget paddingAroundText(String prefix, String showString) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-      child: textRowWith(prefix, showString),
-    );
+  void Function() {
+    widget.guest.checkOutTime = DateTime.now();//get current time when the checkOutButton is pressed
+    showDialog<void> (context: context,
+      builder: (BuildContext context) {
+        return GuestCheckOutAlertDialog(
+          guest: widget.guest,
+          checkOutTimeUpdate: () =>
+            setState(()  => widget.guest.hasCheckedOut = true)
+        );
+      });
   }
+  String _getFormattedTime(DateTime? time) {
+    if (time == null) {
+      return '---';
+    } else {
+      return "${time.hour.toString().padLeft(2,'0')}:${time.minute.toString().padLeft(2,'0')}:${time.second.toString().padLeft(2,'0')}";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     String _guestName = widget.guest.firstName + ' ' + widget.guest.lastName;
@@ -40,16 +52,16 @@ class _GuestItemWidgetState extends State<GuestItemWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        paddingAroundText(_guestNameTextPrefix, _guestName),
-        paddingAroundText(_hostNameTextPrefix, widget.guest.chosenHostName ?? ' '),
+        Styles.paddingWithTextRow(_guestNameTextPrefix, _guestName),
+        Styles.paddingWithTextRow(_hostNameTextPrefix, widget.guest.chosenHostName ?? ' '),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              textRowWith(_statusTextPrefix, _status),
+              Styles.textRowWith(_statusTextPrefix, _status),
               const SizedBox(width: 50),
-              GuestCheckOut(guest: widget.guest),//checkOutButton
+              checkOutButton(),//checkOutButton
             ],
           ),
         ),
@@ -63,13 +75,5 @@ class _GuestItemWidgetState extends State<GuestItemWidget> {
         Divider(),
       ],
     );
-  }
-
-  String _getFormattedTime(DateTime? time) {
-    if (time == null) {
-      return '---';
-    } else {
-      return "${time.hour.toString().padLeft(2,'0')}:${time.minute.toString().padLeft(2,'0')}:${time.second.toString().padLeft(2,'0')}";
-    }
   }
 }
