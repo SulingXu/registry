@@ -14,7 +14,6 @@ class GuestListWidget extends StatefulWidget {
 class _GuestListWidgetState extends State<GuestListWidget> {
   DateTime _selectedDate = DateTime.now();
 
-
   List<Guest> _guestsOnSelectedDate(DateTime selectedDate){
     var i = 0;
     List<Guest> _selectedGuests = [];
@@ -47,7 +46,7 @@ class _GuestListWidgetState extends State<GuestListWidget> {
     List<Guest> _selectedGuests = List.from(_guestsOnSelectedDate(_selectedDate));
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Guest Records')),
+      appBar: AppBar(title: const Text('Guest Records'), automaticallyImplyLeading: false),
       body: Column(
           children: [
             DateSelectionWidget(dateChanged: (DateTime) =>
