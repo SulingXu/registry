@@ -10,7 +10,8 @@ class Guest {
   DateTime? checkInTime;
   DateTime? checkOutTime;
   double fee;
+  bool hasCheckedOut;
 
   Guest({this.firstName = "", this.lastName = "", this.chosenHostName = null, this.status = GuestStatus.play,
-    this.checkInTime = null, this.checkOutTime = null, this.fee = 0});
+    this.checkInTime = null, this.checkOutTime = null, this.fee = 0, this.hasCheckedOut = false});
 }
