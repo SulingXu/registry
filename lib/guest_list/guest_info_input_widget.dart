@@ -17,8 +17,8 @@ class GuestInfoInputWidget extends StatefulWidget {
 class _GuestInfoInputWidgetState extends State<GuestInfoInputWidget> {
   final _guestLastNameController = TextEditingController();
   final _guestFirstNameController = TextEditingController();
-  final String _firstNameTxt = 'First Name:';
-  final String _lastNameTxt = 'Last Name:';
+  final String _firstNameTextPrefix = 'First Name:';
+  final String _lastNameTextPrefix = 'Last Name:';
   final String _checkInTxt = 'Check in';
   final String _firstNameInputHintText = 'Enter your first name';
   final String _lastNameInputHintText = 'Enter your last name';
@@ -34,11 +34,11 @@ class _GuestInfoInputWidgetState extends State<GuestInfoInputWidget> {
       ),
     );
   }
-  Widget nameInputColumn(String txtString, TextEditingController controller, String hintText){
+  Widget nameInputColumn(String prefix, TextEditingController controller, String hintText){
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
+        Styles.text(prefix),
         Container(
           child: textFormField(controller, hintText),
         ),
@@ -56,11 +56,11 @@ class _GuestInfoInputWidgetState extends State<GuestInfoInputWidget> {
         children: <Widget>[
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-            child: nameInputColumn(_firstNameTxt, _guestFirstNameController, _firstNameInputHintText),
+            child: nameInputColumn(_firstNameTextPrefix, _guestFirstNameController, _firstNameInputHintText),
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-            child: nameInputColumn(_lastNameTxt, _guestLastNameController, _lastNameInputHintText),
+            child: nameInputColumn(_lastNameTextPrefix, _guestLastNameController, _lastNameInputHintText),
           ),
           GuestStatusWidget(guest: _guest),
           Padding(
@@ -80,12 +80,13 @@ class _GuestInfoInputWidgetState extends State<GuestInfoInputWidget> {
       _guest.checkInTime = DateTime.now();
       _guest.chosenHostName = widget.chosenHostName;
       _guest.lastName = _guestLastNameController.text;
-      _guest.firstName = _guestLastNameController.text;
+      _guest.firstName = _guestFirstNameController.text;
       widget.guestListProvider.addGuest(_guest);
-      Navigator.push(
+      Navigator.pushReplacement(
           context,
-          new MaterialPageRoute<void>(builder: (context) => new GuestListWidget(guestListProvider: widget.guestListProvider))
+          new MaterialPageRoute<void>(builder: (context) => GuestListWidget(guestListProvider: widget.guestListProvider))
       );
+      // Navigator.pushReplacementNamed(context, '/guestList');
     } else {
       showDialog<void>(
         context: context,
