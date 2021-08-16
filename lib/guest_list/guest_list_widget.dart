@@ -14,15 +14,15 @@ class GuestListWidget extends StatefulWidget {
 class _GuestListWidgetState extends State<GuestListWidget> {
   DateTime _selectedDate = DateTime.now();
 
-  List<Guest> _guestsOnSelectedDate(DateTime selectedDate){
+  List<Guest> _filterGuestWithDate(DateTime selectedDate) {
     var i = 0;
     List<Guest> _selectedGuests = [];
     DateTime currentDate = DateTime.now();
     if(_compareTwoDate(selectedDate, currentDate)) {
       return widget.guestListProvider.provideGuests();
     }
-    while( i < widget.guestListProvider.provideGuests().length){
-      if(widget.guestListProvider.provideGuests()[i].checkInTime != null){
+    while(i < widget.guestListProvider.provideGuests().length) {
+      if(widget.guestListProvider.provideGuests()[i].checkInTime != null) {
         DateTime recordedDate = widget.guestListProvider.provideGuests()[i].checkInTime!;
         if(_compareTwoDate(selectedDate, recordedDate)) {
           _selectedGuests.add(widget.guestListProvider.provideGuests()[i]);
@@ -43,7 +43,7 @@ class _GuestListWidgetState extends State<GuestListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    List<Guest> _selectedGuests = List.from(_guestsOnSelectedDate(_selectedDate));
+    List<Guest> _selectedGuests = List.from(_filterGuestWithDate(_selectedDate));
 
     return Scaffold(
       appBar: AppBar(title: const Text('Guest Records'), automaticallyImplyLeading: false),
