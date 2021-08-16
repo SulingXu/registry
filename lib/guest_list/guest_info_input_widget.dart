@@ -86,7 +86,6 @@ class _GuestInfoInputWidgetState extends State<GuestInfoInputWidget> {
           context,
           new MaterialPageRoute<void>(builder: (context) => GuestListWidget(guestListProvider: widget.guestListProvider))
       );
-      // Navigator.pushReplacementNamed(context, '/guestList');
     } else {
       showDialog<void>(
         context: context,
