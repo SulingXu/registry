@@ -21,8 +21,8 @@ class _DateSelectionWidgetState extends State<DateSelectionWidget> {
     );
     if (picked != null && picked !=  _selectedDate) {
       _selectedDate = picked;
+      widget.dateChanged(_selectedDate);
     }
-    widget.dateChanged(_selectedDate);
   }
 
   @override
