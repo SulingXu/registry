@@ -19,10 +19,10 @@ class _DateSelectionWidgetState extends State<DateSelectionWidget> {
       firstDate: DateTime(2020),
       lastDate: DateTime(2025),
     );
-    if (picked != null && picked !=  _selectedDate)
-      setState(() {
-        _selectedDate = picked;
-      });
+    if (picked != null && picked !=  _selectedDate) {
+      _selectedDate = picked;
+      widget.dateChanged(_selectedDate);
+    }
   }
 
   @override
@@ -41,7 +41,6 @@ class _DateSelectionWidgetState extends State<DateSelectionWidget> {
               iconSize: 28,
               onPressed: () {
                 _selectDate(context);
-                widget.dateChanged(_selectedDate);
               },
             ),
           ],
