@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:registry/guest_list/guest_list_provider.dart';
 import 'host_list/host_list_widget.dart';
 import 'host_list/host_list_provider.dart';
+import 'package:registry/guest_list/guest_list_widget.dart';
 
 void main() {
   runApp(MyApp());
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HostListWidget(hostListProvider: _hostListProvider, guestListProvider: _guestListProvider),
+      home: GuestListWidget(hostListProvider: _hostListProvider, guestListProvider: _guestListProvider),
     );
   }
 }
