@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:registry/guest_list/guest_list_provider.dart';
 import 'add_new_host_widget.dart';
-import 'host_list_provider.dart';
+import 'package:registry/host_list/host_list_provider.dart';
 import '../guest_list/guest_info_input_widget.dart';
 
 // Host list view
@@ -27,12 +27,17 @@ class _HostListWidgetState extends State<HostListWidget> {
           // Get a specific host
           final host = widget.hostListProvider.provideHosts()[index];
           // Return a list tile widget
-          return ListTile(
-            title: Text(host.name),
-            onTap:(){
-              Navigator.push(context,
-                  new MaterialPageRoute<void>(builder: (context) => new GuestInfoInputWidget(chosenHostName: host.name, guestListProvider: widget.guestListProvider)));
-            }
+          return Column(
+            children: [
+              ListTile(
+                title: Text(host.name),
+                onTap:(){
+                  Navigator.push(context,
+                      new MaterialPageRoute<void>(builder: (context) => new GuestInfoInputWidget(chosenHostName: host.name, guestListProvider: widget.guestListProvider, hostListProvider: widget.hostListProvider)));
+                }
+              ),
+              Divider(),
+            ]
           );
         },
       ),
