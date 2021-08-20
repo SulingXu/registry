@@ -1,6 +1,5 @@
 //guest model
 import 'package:registry/guest_list/guest_status.dart';
-import 'guest_status.dart';
 
 class Guest {
   String firstName;
@@ -12,6 +11,6 @@ class Guest {
   double fee;
   bool hasCheckedOut;
 
-  Guest({this.firstName = "", this.lastName = "", this.chosenHostName = null, this.status = GuestStatus.play,
-    this.checkInTime = null, this.checkOutTime = null, this.fee = 0, this.hasCheckedOut = false});
+  Guest(this.firstName, this.lastName, this.chosenHostName, this.status,
+    this.checkInTime, this.checkOutTime, this.fee, this.hasCheckedOut);
 }
