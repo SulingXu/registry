@@ -35,10 +35,10 @@ class _GuestStatusWidgetState extends State<GuestStatusWidget> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           radioButton(GuestStatus.play),
-          Styles.text(_playtxt),
+          Styles.text(_playtxt, Styles.middleTextWithDefaultColor),
           const SizedBox(width: 50),
           radioButton(GuestStatus.watch),
-          Styles.text(_watchtxt),
+          Styles.text(_watchtxt, Styles.middleTextWithDefaultColor),
         ]
       ),
     );
