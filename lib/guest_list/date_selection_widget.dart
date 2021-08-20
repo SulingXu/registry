@@ -32,7 +32,7 @@ class _DateSelectionWidgetState extends State<DateSelectionWidget> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Styles.text('${ _selectedDate.toLocal()}'.split(' ')[0]),
+            Styles.text('${ _selectedDate.toLocal()}'.split(' ')[0], Styles.middleTextWithDefaultColor),
             const SizedBox(width: 50),
             IconButton(
               icon: const Icon(
