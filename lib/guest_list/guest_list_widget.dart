@@ -6,18 +6,6 @@ import 'package:registry/guest_list/date_selection_widget.dart';
 import 'package:registry/host_list/host_list_provider.dart';
 import 'package:registry/host_list/host_list_widget.dart';
 
-bool compareTwoDate(DateTime? d1, DateTime? d2) {
-  if (d1 != null && d2 != null) {
-    if ((d1.year == d2.year) && (d1.month == d2.month) && (d1.day == d2.day)) {
-      return true;
-    } else {
-      return false;
-    }
-  } else {
-    return false;
-  }
-}
-
 class GuestListWidget extends StatefulWidget {
   const GuestListWidget(
       {Key? key,
