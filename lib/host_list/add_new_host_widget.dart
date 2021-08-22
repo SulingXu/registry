@@ -10,7 +10,7 @@ class AddNewHostWidget extends StatefulWidget {
       : super(key: key);
   final HostListProvider hostListProvider;
   final BuildContext context;
-  final VoidCallback completion;
+  final Function(String) completion;
 
   @override
   _AddNewHostWidgetState createState() => _AddNewHostWidgetState();
@@ -20,7 +20,7 @@ class _AddNewHostWidgetState extends State<AddNewHostWidget> {
   final _formKey = GlobalKey<FormState>();
   final _hostFirstNameController = TextEditingController();
   final _hostLastNameController = TextEditingController();
-  String? _hostNameTxt = null;
+  String _hostNameTxt = '';
   final String _onlyLettersAllowedAlert = '(Only letters are allowed for names)';
   final String _saveHostButtonTxt = 'Save';
   final String _hostFirstNamePrefix = 'First Name: ';
@@ -52,12 +52,7 @@ class _AddNewHostWidgetState extends State<AddNewHostWidget> {
     }
     return false;
   }
-
-  void _addHost(String newHostName) {
-    widget.hostListProvider.addHost(Host(_hostNameTxt!));
-    widget.completion(); // call the completion handler / function to trigger list updates
-  }
-
+  
   Widget textFormField(TextEditingController nameInputController, String nameInputHint, String emptyInputAlert, String onlySpaceInputAlert) {
     return TextFormField(
       controller: nameInputController,
@@ -105,7 +100,7 @@ class _AddNewHostWidgetState extends State<AddNewHostWidget> {
       onPressed: () {
         if (_formKey.currentState!.validate()) {
           _hostNameTxt = _hostFirstNameController.text + ' ' + _hostLastNameController.text;
-            if(_hasIdenticalHostName(_hostNameTxt!)) {
+            if(_hasIdenticalHostName(_hostNameTxt)) {
               setState(() {
                 _isVisible = true;
                 _hostFirstNameController.text = '';
@@ -114,7 +109,7 @@ class _AddNewHostWidgetState extends State<AddNewHostWidget> {
             }
             else {
               _isVisible = false;
-              _addHost(_hostNameTxt!);
+              widget.completion(_hostNameTxt); // call the completion handler / function to trigger list updates
               Navigator.of(context).pop();
             }
         }

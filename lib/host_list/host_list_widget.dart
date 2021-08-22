@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:registry/guest_list/guest_list_provider.dart';
-import 'add_new_host_widget.dart';
+import 'package:registry/host_list/host.dart';
+import 'package:registry/host_list/add_new_host_widget.dart';
 import 'package:registry/host_list/host_list_provider.dart';
-import '../guest_list/guest_info_input_widget.dart';
+import 'package:registry/guest_list/guest_info_input_widget.dart';
+import 'package:registry/guest_list/guest_list_provider.dart';
+
 
 // Host list view
 class HostListWidget extends StatefulWidget {
@@ -49,8 +51,10 @@ class _HostListWidgetState extends State<HostListWidget> {
               return AddNewHostWidget(
                   hostListProvider: widget.hostListProvider,
                   context: context,
-                  completion: () {
-                    setState(() {});
+                  completion: (String) {
+                    setState(() {
+                      widget.hostListProvider.addHost(Host(String));
+                    });
                     },
               );
             });
