@@ -5,6 +5,7 @@ import 'package:registry/guest_list/guest.dart';
 import 'package:registry/guest_list/date_selection_widget.dart';
 import 'package:registry/host_list/host_list_provider.dart';
 import 'package:registry/host_list/host_list_widget.dart';
+import 'package:registry/Utilities/dateProcessor.dart';
 
 class GuestListWidget extends StatefulWidget {
   const GuestListWidget(
@@ -29,7 +30,7 @@ class _GuestListWidgetState extends State<GuestListWidget> {
       if (widget.guestListProvider.provideGuests()[i].checkInTime != null) {
         DateTime recordedDate =
             widget.guestListProvider.provideGuests()[i].checkInTime!;
-        if (compareTwoDate(selectedDate, recordedDate)) {
+        if (DateProcessor.compareTwoDate(selectedDate, recordedDate)) {
           _selectedGuests.add(widget.guestListProvider.provideGuests()[i]);
         }
       }
