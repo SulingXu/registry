@@ -1,16 +1,14 @@
 # registry
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Develop a check-in and check-out system of billiards
+— requirements:
+        1. display current date when open the system
+        2. choose host name and store
+        3. input guest name and store 
+        4. choose play or watch
+        5. click check in and record check in time
+        6. click check out and record check out time 
+        7. if choose to play, then show QR code to the guest to pay when he or she checks out. 
+        8. show history, including date, host name, guest name, stay period, play or not play.
+Flow:
+![rergstryApp](https://user-images.githubusercontent.com/71981839/130510773-fb4d2433-5a1a-4b78-9503-45cf90149a1a.jpeg)
