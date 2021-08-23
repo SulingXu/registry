@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:registry/guest_list/guest_list_provider.dart';
-import 'add_new_host_widget.dart';
+import 'package:registry/host_list/host.dart';
+import 'package:registry/host_list/add_new_host_widget.dart';
 import 'package:registry/host_list/host_list_provider.dart';
-import '../guest_list/guest_info_input_widget.dart';
+import 'package:registry/guest_list/guest_info_input_widget.dart';
+import 'package:registry/guest_list/guest_list_provider.dart';
 
 // Host list view
 class HostListWidget extends StatefulWidget {
-  const HostListWidget({Key? key, required this.hostListProvider, required this.guestListProvider}) : super(key: key);
+  const HostListWidget(
+      {Key? key,
+      required this.hostListProvider,
+      required this.guestListProvider})
+      : super(key: key);
 
   // Dependency: host list provider
   final HostListProvider hostListProvider;
@@ -17,6 +22,26 @@ class HostListWidget extends StatefulWidget {
 }
 
 class _HostListWidgetState extends State<HostListWidget> {
+
+  bool _checkDuplicatedHost(String newHostName) {
+    int i = 0;
+    Host existingHost;
+    while (i < widget.hostListProvider.provideHosts().length) {
+      existingHost = widget.hostListProvider.provideHosts()[i];
+      if (newHostName.toLowerCase() == existingHost.name.toLowerCase()) {
+        return true;
+      }
+      i++;
+    }
+    return false;
+  }
+
+  void _completion(String newHostName) {
+    setState(() {
+      widget.hostListProvider.addHost(Host(newHostName));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,38 +52,36 @@ class _HostListWidgetState extends State<HostListWidget> {
           // Get a specific host
           final host = widget.hostListProvider.provideHosts()[index];
           // Return a list tile widget
-          return Column(
-            children: [
-              ListTile(
+          return Column(children: [
+            ListTile(
                 title: Text(host.name),
-                onTap:(){
-                  Navigator.push(context,
-                      new MaterialPageRoute<void>(builder: (context) => new GuestInfoInputWidget(chosenHostName: host.name, guestListProvider: widget.guestListProvider, hostListProvider: widget.hostListProvider)));
-                }
-              ),
-              Divider(),
-            ]
-          );
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute<void>(
+                          builder: (context) => new GuestInfoInputWidget(
+                              chosenHostName: host.name,
+                              guestListProvider: widget.guestListProvider,
+                              hostListProvider: widget.hostListProvider)));
+                }),
+            Divider(),
+          ]);
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed:() {
+        onPressed: () {
           showDialog<void>(
             context: context,
             builder: (BuildContext context) {
               return AddNewHostWidget(
-                  hostListProvider: widget.hostListProvider,
-                  context: context,
-                  completion: () {
-                    setState(() {});
-                    },
+                checkDuplicatedHost: _checkDuplicatedHost,
+                completion: _completion,
               );
             });
-          },
+        },
         tooltip: "Add Host",
         child: const Icon(Icons.add),
       ),
     );
   }
 }
-
