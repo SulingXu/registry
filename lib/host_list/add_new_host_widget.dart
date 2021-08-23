@@ -6,11 +6,10 @@ import 'package:registry/host_list/host_list_provider.dart';
 
 class AddNewHostWidget extends StatefulWidget {
   const AddNewHostWidget(
-      {Key? key, required this.hostListProvider, required this.context, required this.completion})
+      {Key? key, required this.checkDuplicatedHost, required this.completion})
       : super(key: key);
-  final HostListProvider hostListProvider;
-  final BuildContext context;
   final Function(String) completion;
+  final bool Function(String) checkDuplicatedHost;
 
   @override
   _AddNewHostWidgetState createState() => _AddNewHostWidgetState();
@@ -40,19 +39,6 @@ class _AddNewHostWidgetState extends State<AddNewHostWidget> {
     super.dispose();
   }
 
-  bool _hasIdenticalHostName(String newHostName) {
-    var i = 0;
-    Host existingHost;
-    while(i < widget.hostListProvider.provideHosts().length) {
-      existingHost = widget.hostListProvider.provideHosts()[i];
-      if (newHostName.toLowerCase() == existingHost.name.toLowerCase()) {
-        return true;
-      }
-      i++;
-    }
-    return false;
-  }
-  
   Widget textFormField(TextEditingController nameInputController, String nameInputHint, String emptyInputAlert, String onlySpaceInputAlert) {
     return TextFormField(
       controller: nameInputController,
@@ -100,7 +86,7 @@ class _AddNewHostWidgetState extends State<AddNewHostWidget> {
       onPressed: () {
         if (_formKey.currentState!.validate()) {
           _hostNameTxt = _hostFirstNameController.text + ' ' + _hostLastNameController.text;
-            if(_hasIdenticalHostName(_hostNameTxt)) {
+            if(widget.checkDuplicatedHost(_hostNameTxt)) {
               setState(() {
                 _isVisible = true;
                 _hostFirstNameController.text = '';
