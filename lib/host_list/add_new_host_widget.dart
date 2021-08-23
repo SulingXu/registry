@@ -20,7 +20,8 @@ class _AddNewHostWidgetState extends State<AddNewHostWidget> {
   final _hostFirstNameController = TextEditingController();
   final _hostLastNameController = TextEditingController();
   String _hostNameTxt = '';
-  final String _onlyLettersAllowedAlert = '(Only letters are allowed for names)';
+  final String _onlyLettersAllowedAlert =
+      '(Only letters are allowed for names)';
   final String _saveHostButtonTxt = 'Save';
   final String _hostFirstNamePrefix = 'First Name: ';
   final String _hostLastNamePrefix = 'Last Name: ';
@@ -39,7 +40,11 @@ class _AddNewHostWidgetState extends State<AddNewHostWidget> {
     super.dispose();
   }
 
-  Widget textFormField(TextEditingController nameInputController, String nameInputHint, String emptyInputAlert, String onlySpaceInputAlert) {
+  Widget textFormField(
+      TextEditingController nameInputController,
+      String nameInputHint,
+      String emptyInputAlert,
+      String onlySpaceInputAlert) {
     return TextFormField(
       controller: nameInputController,
       inputFormatters: <TextInputFormatter>[
@@ -63,7 +68,13 @@ class _AddNewHostWidgetState extends State<AddNewHostWidget> {
     );
   }
 
-  Widget paddingInRowWithNameController(String namePrefix, double widthOfContainer, TextEditingController nameInputController, String nameInputHint, String emptyInputAlert, String onlySpaceInputAlert) {
+  Widget paddingInRowWithNameController(
+      String namePrefix,
+      double widthOfContainer,
+      TextEditingController nameInputController,
+      String nameInputHint,
+      String emptyInputAlert,
+      String onlySpaceInputAlert) {
     return Padding(
         padding: EdgeInsets.all(8.0),
         child: Row(
@@ -72,11 +83,11 @@ class _AddNewHostWidgetState extends State<AddNewHostWidget> {
             Styles.text(namePrefix, Styles.smallTextWithDefaultColor),
             Container(
               width: widthOfContainer,
-              child: textFormField(nameInputController, nameInputHint, emptyInputAlert, onlySpaceInputAlert),
+              child: textFormField(nameInputController, nameInputHint,
+                  emptyInputAlert, onlySpaceInputAlert),
             )
           ],
-        )
-    );
+        ));
   }
 
   @override
@@ -85,19 +96,21 @@ class _AddNewHostWidgetState extends State<AddNewHostWidget> {
       child: Text(_saveHostButtonTxt),
       onPressed: () {
         if (_formKey.currentState!.validate()) {
-          _hostNameTxt = _hostFirstNameController.text + ' ' + _hostLastNameController.text;
-            if(widget.checkDuplicatedHost(_hostNameTxt)) {
-              setState(() {
-                _isVisible = true;
-                _hostFirstNameController.text = '';
-                _hostLastNameController.text = '';
-              });
-            }
-            else {
-              _isVisible = false;
-              widget.completion(_hostNameTxt); // call the completion handler / function to trigger list updates
-              Navigator.of(context).pop();
-            }
+          _hostNameTxt = _hostFirstNameController.text +
+              ' ' +
+              _hostLastNameController.text;
+          if (widget.checkDuplicatedHost(_hostNameTxt)) {
+            setState(() {
+              _isVisible = true;
+              _hostFirstNameController.text = '';
+              _hostLastNameController.text = '';
+            });
+          } else {
+            _isVisible = false;
+            widget.completion(
+                _hostNameTxt); // call the completion handler / function to trigger list updates
+            Navigator.of(context).pop();
+          }
         }
       },
     );
@@ -125,12 +138,26 @@ class _AddNewHostWidgetState extends State<AddNewHostWidget> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Styles.paddingWithText(_addHostTitle),
-                Styles.text(_onlyLettersAllowedAlert, Styles.extralSmallTextWithYellowColor),
-                paddingInRowWithNameController(_hostLastNamePrefix, _widthOfContainer, _hostLastNameController, _hostLastNameInputHintTxt, _emptyInputAlertTxt, _onlySpaceInputAlertTxt),
-                paddingInRowWithNameController(_hostFirstNamePrefix, _widthOfContainer, _hostFirstNameController, _hostFirstNameInputHintTxt, _emptyInputAlertTxt, _onlySpaceInputAlertTxt),
-                Visibility (
+                Styles.text(_onlyLettersAllowedAlert,
+                    Styles.extralSmallTextWithYellowColor),
+                paddingInRowWithNameController(
+                    _hostLastNamePrefix,
+                    _widthOfContainer,
+                    _hostLastNameController,
+                    _hostLastNameInputHintTxt,
+                    _emptyInputAlertTxt,
+                    _onlySpaceInputAlertTxt),
+                paddingInRowWithNameController(
+                    _hostFirstNamePrefix,
+                    _widthOfContainer,
+                    _hostFirstNameController,
+                    _hostFirstNameInputHintTxt,
+                    _emptyInputAlertTxt,
+                    _onlySpaceInputAlertTxt),
+                Visibility(
                   visible: _isVisible,
-                  child: Styles.text("The host name has already existed!\n"
+                  child: Styles.text(
+                      "The host name has already existed!\n"
                       "please reenter or choose one!",
                       Styles.extralSmallTextWithRedColor),
                 ),
