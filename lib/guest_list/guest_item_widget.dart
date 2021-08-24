@@ -5,7 +5,7 @@ import 'package:registry/guest_list/guest.dart';
 import 'package:registry/styles.dart';
 import 'package:registry/host_list/host_list_provider.dart';
 import 'package:registry/guest_list/guest_list_provider.dart';
-import 'package:registry/guest_list/guest_list_widget.dart';
+import 'package:registry/Utilities/dateProcessor.dart';
 
 class GuestItemWidget extends StatefulWidget {
   GuestItemWidget(
@@ -107,7 +107,7 @@ class _GuestItemWidgetState extends State<GuestItemWidget> {
                       "From  " +
                           _getHrMin(widget.guest.checkInTime) +
                           "  to  " +
-                          (compareTwoDate(widget.guest.checkInTime,
+                          (DateProcessor.compareTwoDate(widget.guest.checkInTime,
                                   widget.guest.checkOutTime)
                               ? _getHrMin(widget.guest.checkOutTime)
                               : _getMonDayHrMin(widget.guest.checkOutTime)),
