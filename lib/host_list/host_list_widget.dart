@@ -2,27 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:registry/host_list/host.dart';
 import 'package:registry/host_list/add_new_host_widget.dart';
 import 'package:registry/host_list/host_list_provider.dart';
+import 'package:registry/guest_list/guest.dart';
 import 'package:registry/guest_list/guest_info_input_widget.dart';
-import 'package:registry/guest_list/guest_list_provider.dart';
 
 // Host list view
 class HostListWidget extends StatefulWidget {
   const HostListWidget(
       {Key? key,
       required this.hostListProvider,
-      required this.guestListProvider})
+      required this.addNewGuest,
+      required this.checkDuplicatedGuest})
       : super(key: key);
 
   // Dependency: host list provider
   final HostListProvider hostListProvider;
-  final GuestListProvider guestListProvider;
+  final Function(Guest) addNewGuest;
+  final bool Function(String, String) checkDuplicatedGuest;
 
   @override
   _HostListWidgetState createState() => _HostListWidgetState();
 }
 
 class _HostListWidgetState extends State<HostListWidget> {
-
   bool _checkDuplicatedHost(String newHostName) {
     int i = 0;
     Host existingHost;
@@ -60,9 +61,11 @@ class _HostListWidgetState extends State<HostListWidget> {
                       context,
                       new MaterialPageRoute<void>(
                           builder: (context) => new GuestInfoInputWidget(
-                              chosenHostName: host.name,
-                              guestListProvider: widget.guestListProvider,
-                              hostListProvider: widget.hostListProvider)));
+                                chosenHostName: host.name,
+                                addNewGuest: widget.addNewGuest,
+                                checkDuplicatedGuest:
+                                    widget.checkDuplicatedGuest,
+                              )));
                 }),
             Divider(),
           ]);
@@ -71,13 +74,13 @@ class _HostListWidgetState extends State<HostListWidget> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showDialog<void>(
-            context: context,
-            builder: (BuildContext context) {
-              return AddNewHostWidget(
-                checkDuplicatedHost: _checkDuplicatedHost,
-                completion: _completion,
-              );
-            });
+              context: context,
+              builder: (BuildContext context) {
+                return AddNewHostWidget(
+                  checkDuplicatedHost: _checkDuplicatedHost,
+                  completion: _completion,
+                );
+              });
         },
         tooltip: "Add Host",
         child: const Icon(Icons.add),

@@ -39,6 +39,37 @@ class _GuestListWidgetState extends State<GuestListWidget> {
     return _selectedGuests;
   }
 
+  bool _isUnCheckOutGuest(String guestLastName, String guestFirstName) {
+    var i = 0;
+    Guest existedGuest;
+    while (i < widget.guestListProvider.provideGuests().length) {
+      if (!widget.guestListProvider.provideGuests()[i].hasCheckedOut) {
+        //haven't checked out
+        existedGuest = widget.guestListProvider.provideGuests()[i];
+        if ((guestLastName.toLowerCase() ==
+                existedGuest.lastName.toLowerCase()) &&
+            (guestFirstName.toLowerCase() ==
+                existedGuest.firstName.toLowerCase())) {
+          return true;
+        }
+      }
+      i++;
+    }
+    return false;
+  }
+
+  bool _checkDuplicatedGuest(String guestLastName, String guestFirstName) {
+    if (_isUnCheckOutGuest(guestLastName, guestFirstName)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void _addNewGuest(Guest newGuest) {
+    widget.guestListProvider.addGuest(newGuest);
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Guest> _selectedGuests =
@@ -71,7 +102,8 @@ class _GuestListWidgetState extends State<GuestListWidget> {
               new MaterialPageRoute<void>(
                   builder: (context) => HostListWidget(
                       hostListProvider: widget.hostListProvider,
-                      guestListProvider: widget.guestListProvider)));
+                      addNewGuest: _addNewGuest,
+                      checkDuplicatedGuest: _checkDuplicatedGuest)));
         },
         child: Icon(Icons.add),
       ),
