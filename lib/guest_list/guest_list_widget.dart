@@ -90,9 +90,8 @@ class _GuestListWidgetState extends State<GuestListWidget> {
                   final guest = _selectedGuests[index];
                   // Return a list tile widget
                   return GuestItemWidget(
-                      guest: guest,
-                      guestListProvider: widget.guestListProvider,
-                      hostListProvider: widget.hostListProvider);
+                    guest: guest,
+                  );
                 }))
       ]),
       floatingActionButton: FloatingActionButton(

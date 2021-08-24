@@ -3,14 +3,10 @@ import 'package:registry/guest_list/guest.dart';
 import 'package:registry/styles.dart';
 import 'package:registry/guest_list/guest_fee_paying.dart';
 import 'package:registry/guest_list/guest_status.dart';
-import 'package:registry/host_list/host_list_provider.dart';
-import 'package:registry/guest_list/guest_list_provider.dart';
 
 class GuestCheckOutAlertDialog extends StatefulWidget {
-  GuestCheckOutAlertDialog({Key? key, required this.guest, required this.checkOutTimeUpdate, required this.guestListProvider, required this.hostListProvider}) : super(key: key);
+  GuestCheckOutAlertDialog({Key? key, required this.guest, required this.checkOutTimeUpdate}) : super(key: key);
   Guest guest;
-  final GuestListProvider guestListProvider;
-  final HostListProvider hostListProvider;
   VoidCallback checkOutTimeUpdate;
   @override
   _GuestCheckOutAlertDialogState createState() => _GuestCheckOutAlertDialogState();
@@ -22,8 +18,7 @@ class _GuestCheckOutAlertDialogState extends State<GuestCheckOutAlertDialog> {
   final String _continueButtonTxt ='Continue';
   final String _questionTxt = 'Are you sure to check out?';
   final String _wrongTimewarning = 'Wrong registry time';
-  final double _playingFeePerHour = 50.0;
-  final double _playingFeePerMinute = 1.0;
+  final double _playingFeePerMinute = 1.0;//used for test
 
   String _calTotalTime(DateTime? startTime, DateTime? endTime) {
     if(startTime == null || endTime == null ) {
@@ -54,11 +49,11 @@ class _GuestCheckOutAlertDialogState extends State<GuestCheckOutAlertDialog> {
     }
   }
 
-  void _navigateToDifferentPages(BuildContext context, double fee, HostListProvider hostListProvider, GuestListProvider guestListProvider) {
+  void _navigateToDifferentPages(BuildContext context, double fee) {
     if (fee != 0) {
       Navigator.push(
         context,
-        new MaterialPageRoute<void>(builder: (context) => GuestFeePaying(guestFee: fee, hostListProvider: hostListProvider, guestListProvider: guestListProvider)),
+        new MaterialPageRoute<void>(builder: (context) => GuestFeePaying(guestFee: fee,)),
       );
     } else {
       Navigator.of(context).pop();
@@ -75,12 +70,12 @@ class _GuestCheckOutAlertDialogState extends State<GuestCheckOutAlertDialog> {
     );
   }
 
-  Widget continueButton (BuildContext context, double fee, HostListProvider hostListProvider, GuestListProvider guestListProvider) {
+  Widget continueButton (BuildContext context, double fee) {
     return TextButton(
       child: Text(_continueButtonTxt),
       onPressed:  () {
         widget.checkOutTimeUpdate();
-        _navigateToDifferentPages(context, fee, hostListProvider, guestListProvider);
+        _navigateToDifferentPages(context, fee);
       },
     );
   }
@@ -106,7 +101,7 @@ class _GuestCheckOutAlertDialogState extends State<GuestCheckOutAlertDialog> {
       ),
       actions: [
         cancelButton(context),
-        continueButton(context, widget.guest.fee, widget.hostListProvider, widget.guestListProvider),
+        continueButton(context, widget.guest.fee),
       ],
     );
   }

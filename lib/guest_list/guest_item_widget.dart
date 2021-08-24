@@ -3,20 +3,11 @@ import 'package:registry/guest_list/guest_check_out_alert_dialog.dart';
 import 'package:registry/guest_list/guest_status.dart';
 import 'package:registry/guest_list/guest.dart';
 import 'package:registry/styles.dart';
-import 'package:registry/host_list/host_list_provider.dart';
-import 'package:registry/guest_list/guest_list_provider.dart';
 import 'package:registry/Utilities/dateProcessor.dart';
 
 class GuestItemWidget extends StatefulWidget {
-  GuestItemWidget(
-      {Key? key,
-      required this.guest,
-      required this.guestListProvider,
-      required this.hostListProvider})
-      : super(key: key);
+  GuestItemWidget({Key? key, required this.guest}) : super(key: key);
   Guest guest;
-  GuestListProvider guestListProvider;
-  HostListProvider hostListProvider;
 
   @override
   _GuestItemWidgetState createState() => _GuestItemWidgetState();
@@ -51,8 +42,6 @@ class _GuestItemWidgetState extends State<GuestItemWidget> {
         builder: (BuildContext context) {
           return GuestCheckOutAlertDialog(
               guest: widget.guest,
-              guestListProvider: widget.guestListProvider,
-              hostListProvider: widget.hostListProvider,
               checkOutTimeUpdate: () =>
                   setState(() => widget.guest.hasCheckedOut = true));
         });
@@ -107,7 +96,8 @@ class _GuestItemWidgetState extends State<GuestItemWidget> {
                       "From  " +
                           _getHrMin(widget.guest.checkInTime) +
                           "  to  " +
-                          (DateProcessor.compareTwoDate(widget.guest.checkInTime,
+                          (DateProcessor.compareTwoDate(
+                                  widget.guest.checkInTime,
                                   widget.guest.checkOutTime)
                               ? _getHrMin(widget.guest.checkOutTime)
                               : _getMonDayHrMin(widget.guest.checkOutTime)),
