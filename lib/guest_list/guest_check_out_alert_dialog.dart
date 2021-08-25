@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:registry/Utilities/dateProcessor.dart';
 import 'package:registry/guest_list/guest.dart';
 import 'package:registry/styles.dart';
 import 'package:registry/guest_list/guest_fee_paying.dart';
@@ -18,29 +19,16 @@ class _GuestCheckOutAlertDialogState extends State<GuestCheckOutAlertDialog> {
   final String _continueButtonTxt ='Continue';
   final String _questionTxt = 'Are you sure to check out?';
   final String _wrongTimewarning = 'Wrong registry time';
-  final double _playingFeePerHour = 50.0;
+  final double _playingFeePerMinute = 1.0;//used for test
 
-  String _calTotalTime(DateTime? startTime, DateTime? endTime) {
-    if(startTime == null || endTime == null ) {
-      return _wrongTimewarning;
-    }
-    double totalTime = (endTime.hour + (endTime.minute / 60)) -
-        (startTime.hour + (startTime.minute / 60));
-    int hours = totalTime.floor();
-    int minuts = ((totalTime - totalTime.floorToDouble()) * 60).round();
-    return (hours == 0)
-        ? '${minuts}min'
-        : (minuts == 0) ? '${hours}hr' : '${hours}hr ${minuts}min';
-  }
-
-  double _calTotalMoney(String calTotalTime, double playingFeePerHour) {
+  double _calTotalMoney(String calTotalTime, double playingFeePerMinute) {
     if (calTotalTime.contains("hr") && calTotalTime.contains("min")) {
-      return (int.parse(calTotalTime.split('hr')[0]) + 1) * playingFeePerHour; // n hr m min
+      return (int.parse(calTotalTime.split('hr')[0]) * 60 + int.parse(calTotalTime.split(' ')[1][0]))* playingFeePerMinute; // n hr m min
     } else if(calTotalTime.contains("hr")) {
-      return int.parse(calTotalTime.split('hr')[0]) * playingFeePerHour;// = n hr
+      return int.parse(calTotalTime.split('hr')[0]) * playingFeePerMinute * 60;// = n hr
     } else if(calTotalTime.contains("min")) {
       if (int.parse(calTotalTime.split('min')[0]) !=0) {
-        return playingFeePerHour;// 1 min < * < 1 hr
+        return int.parse(calTotalTime.split('min')[0]) * playingFeePerMinute ;// 1 min < nmin < 1 hr
       } else { // 0 min
         return 0;
       }
@@ -53,10 +41,10 @@ class _GuestCheckOutAlertDialogState extends State<GuestCheckOutAlertDialog> {
     if (fee != 0) {
       Navigator.push(
         context,
-        new MaterialPageRoute<void>(builder: (context) => GuestFeePaying(guestFee: widget.guest.fee)),
+        new MaterialPageRoute<void>(builder: (context) => GuestFeePaying(guestFee: fee)),
       );
     } else {
-      Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
+      Navigator.of(context).pop();
     }
   }
 
@@ -64,6 +52,7 @@ class _GuestCheckOutAlertDialogState extends State<GuestCheckOutAlertDialog> {
     return TextButton(
       child: Text(_cancelButtonTxt),
       onPressed:  () {
+        widget.guest.checkOutTime = null;
         Navigator.of(context).pop();
       },
     );
@@ -83,13 +72,13 @@ class _GuestCheckOutAlertDialogState extends State<GuestCheckOutAlertDialog> {
   Widget build(BuildContext context) {
     String _guestName = widget.guest.firstName + ' ' + widget.guest.lastName;
     String _status = (widget.guest.status == GuestStatus.play) ? 'play' : 'watch';
-    String _totalStayTime = _calTotalTime(widget.guest.checkInTime, widget.guest.checkOutTime);
+    String _totalStayTime = DateProcessor.calTotalTime(widget.guest.checkInTime, widget.guest.checkOutTime, _wrongTimewarning);
     String _showNameTimeStatus = _guestName + ' spent ' + _totalStayTime + ' ' + _status + 'ing,';
-    widget.guest.fee = _calTotalMoney(_totalStayTime, _playingFeePerHour);
-    String _showMoney = (_status == 'play' && widget.guest.fee != 0) ? "need to pay " + widget.guest.fee.toString() + "SEK" : "don't need to pay";
+    widget.guest.fee = (_status == 'play') ? _calTotalMoney(_totalStayTime, _playingFeePerMinute) : 0;
+    String _showMoney = (_status == 'play' && widget.guest.fee != 0) ? "need to pay " + widget.guest.fee.toString() + " SEK" : "don't need to pay";
 
     return AlertDialog(
-      title: Text(_alertDialogTitle),
+      title: Center(child:Text(_alertDialogTitle)),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
