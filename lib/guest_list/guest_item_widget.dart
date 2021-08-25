@@ -25,7 +25,7 @@ class _GuestItemWidgetState extends State<GuestItemWidget> {
       style: widget.guest.hasCheckedOut
           ? Styles.CheckedOutbuttonColor
           : Styles.unCheckedOutbuttonColor,
-      onPressed: widget.guest.hasCheckedOut ? null : Function,
+      onPressed: widget.guest.hasCheckedOut ? null : _onPressed,
       child: Styles.text(
           widget.guest.hasCheckedOut
               ? _checkedOutButtonTxt
@@ -34,7 +34,7 @@ class _GuestItemWidgetState extends State<GuestItemWidget> {
     );
   }
 
-  void Function() {
+  void _onPressed() {
     widget.guest.checkOutTime =
         DateTime.now(); //get current time when the checkOutButton is pressed
     showDialog<void>(
@@ -45,22 +45,6 @@ class _GuestItemWidgetState extends State<GuestItemWidget> {
               checkOutTimeUpdate: () =>
                   setState(() => widget.guest.hasCheckedOut = true));
         });
-  }
-
-  String _getHrMin(DateTime? time) {
-    if (time == null) {
-      return '---';
-    } else {
-      return "${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}";
-    }
-  }
-
-  String _getMonDayHrMin(DateTime? time) {
-    if (time == null) {
-      return '---';
-    } else {
-      return "${time.month.toString().padLeft(2, '0')}-${time.day.toString().padLeft(2, '0')} ${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}";
-    }
   }
 
   @override
@@ -94,13 +78,15 @@ class _GuestItemWidgetState extends State<GuestItemWidget> {
                   alignment: Alignment.center,
                   child: Styles.text(
                       "From  " +
-                          _getHrMin(widget.guest.checkInTime) +
+                          DateProcessor.getHrMin(widget.guest.checkInTime) +
                           "  to  " +
                           (DateProcessor.compareTwoDate(
                                   widget.guest.checkInTime,
                                   widget.guest.checkOutTime)
-                              ? _getHrMin(widget.guest.checkOutTime)
-                              : _getMonDayHrMin(widget.guest.checkOutTime)),
+                              ? DateProcessor.getHrMin(
+                                  widget.guest.checkOutTime)
+                              : DateProcessor.getMonDayHrMin(
+                                  widget.guest.checkOutTime)),
                       Styles.middleTextWithDefaultColor)),
             ),
           ],

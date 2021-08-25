@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:registry/Utilities/dateProcessor.dart';
 import 'package:registry/guest_list/guest.dart';
 import 'package:registry/styles.dart';
 import 'package:registry/guest_list/guest_fee_paying.dart';
@@ -20,19 +21,6 @@ class _GuestCheckOutAlertDialogState extends State<GuestCheckOutAlertDialog> {
   final String _wrongTimewarning = 'Wrong registry time';
   final double _playingFeePerMinute = 1.0;//used for test
 
-  String _calTotalTime(DateTime? startTime, DateTime? endTime) {
-    if(startTime == null || endTime == null ) {
-      return _wrongTimewarning;
-    }
-    double totalTime = (endTime.day * 24 + endTime.hour + (endTime.minute / 60)) -
-        (startTime.day * 24 + startTime.hour + (startTime.minute / 60));
-    int hours = totalTime.floor();
-    int minuts = ((totalTime - totalTime.floorToDouble()) * 60).round();
-    return (hours == 0)
-        ? '${minuts}min'
-        : (minuts == 0) ? '${hours}hr' : '${hours}hr ${minuts}min';
-  }
-
   double _calTotalMoney(String calTotalTime, double playingFeePerMinute) {
     if (calTotalTime.contains("hr") && calTotalTime.contains("min")) {
       return (int.parse(calTotalTime.split('hr')[0]) * 60 + int.parse(calTotalTime.split(' ')[1][0]))* playingFeePerMinute; // n hr m min
@@ -53,7 +41,7 @@ class _GuestCheckOutAlertDialogState extends State<GuestCheckOutAlertDialog> {
     if (fee != 0) {
       Navigator.push(
         context,
-        new MaterialPageRoute<void>(builder: (context) => GuestFeePaying(guestFee: fee,)),
+        new MaterialPageRoute<void>(builder: (context) => GuestFeePaying(guestFee: fee)),
       );
     } else {
       Navigator.of(context).pop();
@@ -84,7 +72,7 @@ class _GuestCheckOutAlertDialogState extends State<GuestCheckOutAlertDialog> {
   Widget build(BuildContext context) {
     String _guestName = widget.guest.firstName + ' ' + widget.guest.lastName;
     String _status = (widget.guest.status == GuestStatus.play) ? 'play' : 'watch';
-    String _totalStayTime = _calTotalTime(widget.guest.checkInTime, widget.guest.checkOutTime);
+    String _totalStayTime = DateProcessor.calTotalTime(widget.guest.checkInTime, widget.guest.checkOutTime, _wrongTimewarning);
     String _showNameTimeStatus = _guestName + ' spent ' + _totalStayTime + ' ' + _status + 'ing,';
     widget.guest.fee = (_status == 'play') ? _calTotalMoney(_totalStayTime, _playingFeePerMinute) : 0;
     String _showMoney = (_status == 'play' && widget.guest.fee != 0) ? "need to pay " + widget.guest.fee.toString() + " SEK" : "don't need to pay";
