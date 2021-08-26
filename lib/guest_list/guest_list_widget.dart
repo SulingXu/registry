@@ -67,7 +67,9 @@ class _GuestListWidgetState extends State<GuestListWidget> {
   }
 
   void _addNewGuest(Guest newGuest) {
-    widget.guestListProvider.addGuest(newGuest);
+    setState(() {
+      widget.guestListProvider.addGuest(newGuest);
+    });
   }
 
   @override

@@ -44,7 +44,7 @@ class _GuestCheckOutAlertDialogState extends State<GuestCheckOutAlertDialog> {
         new MaterialPageRoute<void>(builder: (context) => GuestFeePaying(guestFee: fee)),
       );
     } else {
-      Navigator.of(context).pop();
+      Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
     }
   }
 
