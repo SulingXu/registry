@@ -5,9 +5,7 @@ import 'package:registry/host_list/host_list_provider.dart';
 import 'package:registry/guest_list/guest_list_provider.dart';
 
 class GuestFeePaying extends StatefulWidget {
-  const GuestFeePaying({Key? key, required this.guestFee, required this.guestListProvider, required this.hostListProvider}) : super(key: key);
-  final GuestListProvider guestListProvider;
-  final HostListProvider hostListProvider;
+  const GuestFeePaying({Key? key, required this.guestFee}) : super(key: key);
   final double guestFee;
   @override
   _GuestFeePayingState createState() => _GuestFeePayingState();
@@ -32,11 +30,7 @@ class _GuestFeePayingState extends State<GuestFeePaying> {
         ElevatedButton(
           style: Styles.buttonStyle,
           onPressed: () {
-            Navigator.pushReplacement(
-                context,
-                new MaterialPageRoute<void>(builder: (context) =>
-                    GuestListWidget(hostListProvider: widget.hostListProvider, guestListProvider: widget.guestListProvider))
-            );
+            Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
           },
           child: Styles.text(_paymentDoneTxt, Styles.middleTextWithDefaultColor),
         ),
