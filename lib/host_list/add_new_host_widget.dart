@@ -6,9 +6,9 @@ import 'package:registry/host_list/host_list_provider.dart';
 
 class AddNewHostWidget extends StatefulWidget {
   const AddNewHostWidget(
-      {Key? key, required this.checkDuplicatedHost, required this.completion})
+      {Key? key, required this.checkDuplicatedHost, required this.addHost})
       : super(key: key);
-  final Function(String) completion;
+  final Function(String) addHost;
   final bool Function(String) checkDuplicatedHost;
 
   @override
@@ -107,7 +107,7 @@ class _AddNewHostWidgetState extends State<AddNewHostWidget> {
             });
           } else {
             _isVisible = false;
-            widget.completion(
+            widget.addHost(
                 _hostNameTxt); // call the completion handler / function to trigger list updates
             Navigator.of(context).pop();
           }
