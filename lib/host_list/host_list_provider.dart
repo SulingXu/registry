@@ -18,4 +18,9 @@ class HostListProvider {
   void addHost(Host host) {
     _hosts.add(host);
   }
+
+  // API to delete a host
+  void deleteHost(Host host) {
+    _hosts.remove(host);
+  }
 }
