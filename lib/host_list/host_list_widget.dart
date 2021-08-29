@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:registry/host_list/host.dart';
 import 'package:registry/host_list/add_new_host_widget.dart';
+import 'package:registry/host_list/delete_host_alert_dialog.dart';
 import 'package:registry/host_list/host_list_provider.dart';
 import 'package:registry/guest_list/guest.dart';
 import 'package:registry/guest_list/guest_info_input_widget.dart';
@@ -40,7 +41,7 @@ class _HostListWidgetState extends State<HostListWidget> {
     return false;
   }
 
-  void _completion(String newHostName) {
+  void _addHost(String newHostName) {
     setState(() {
       widget.hostListProvider.addHost(Host(newHostName));
     });
@@ -61,9 +62,15 @@ class _HostListWidgetState extends State<HostListWidget> {
                 title: Text(host.name),
                 trailing: TextButton(
                     onPressed: () {
-                      setState(() {
-                        widget.hostListProvider.deleteHost(host);
-                      });
+                      showDialog<void>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return DeleteHostAlertDialog(
+                              hostName: host.name,
+                              deleteHost: () => setState(() =>
+                                  widget.hostListProvider.deleteHost(host)),
+                            );
+                          });
                     },
                     child: Text(deleteHostTxt)),
                 onTap: () {
@@ -88,7 +95,7 @@ class _HostListWidgetState extends State<HostListWidget> {
               builder: (BuildContext context) {
                 return AddNewHostWidget(
                   checkDuplicatedHost: _checkDuplicatedHost,
-                  completion: _completion,
+                  addHost: _addHost,
                 );
               });
         },
