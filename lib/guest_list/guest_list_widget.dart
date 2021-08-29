@@ -40,7 +40,7 @@ class _GuestListWidgetState extends State<GuestListWidget> {
   }
 
   bool _isUnCheckOutGuest(String guestLastName, String guestFirstName) {
-    var i = 0;
+    int i = 0;
     Guest existedGuest;
     while (i < widget.guestListProvider.provideGuests().length) {
       if (!widget.guestListProvider.provideGuests()[i].hasCheckedOut) {

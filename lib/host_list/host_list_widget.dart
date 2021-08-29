@@ -24,6 +24,9 @@ class HostListWidget extends StatefulWidget {
 }
 
 class _HostListWidgetState extends State<HostListWidget> {
+  String deleteHostTxt = 'remove';
+  String hostListBarTitle = 'Host List View';
+
   bool _checkDuplicatedHost(String newHostName) {
     int i = 0;
     Host existingHost;
@@ -46,7 +49,7 @@ class _HostListWidgetState extends State<HostListWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Host List View")),
+      appBar: AppBar(title: Text(hostListBarTitle)),
       body: ListView.builder(
         itemCount: widget.hostListProvider.provideHosts().length,
         itemBuilder: (context, index) {
@@ -56,6 +59,13 @@ class _HostListWidgetState extends State<HostListWidget> {
           return Column(children: [
             ListTile(
                 title: Text(host.name),
+                trailing: TextButton(
+                    onPressed: () {
+                      setState(() {
+                        widget.hostListProvider.deleteHost(host);
+                      });
+                    },
+                    child: Text(deleteHostTxt)),
                 onTap: () {
                   Navigator.push(
                       context,
