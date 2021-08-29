@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:registry/guest_list/guest_item_widget.dart';
 import 'package:registry/guest_list/guest_list_provider.dart';
 import 'package:registry/guest_list/guest.dart';
-import 'package:registry/guest_list/date_selection_widget.dart';
+import 'package:registry/guest_list/guest_history_list_widget.dart';
 import 'package:registry/host_list/host_list_provider.dart';
 import 'package:registry/host_list/host_list_widget.dart';
-import 'package:registry/Utilities/dateProcessor.dart';
+import 'package:registry/Utilities/guestProcessor.dart';
+import 'package:registry/styles.dart';
 
 class GuestListWidget extends StatefulWidget {
   const GuestListWidget(
@@ -21,23 +22,8 @@ class GuestListWidget extends StatefulWidget {
 }
 
 class _GuestListWidgetState extends State<GuestListWidget> {
+  String _historyTxt = 'History';
   DateTime _selectedDate = DateTime.now();
-
-  List<Guest> _filterGuestWithDate(DateTime selectedDate) {
-    var i = 0;
-    List<Guest> _selectedGuests = [];
-    while (i < widget.guestListProvider.provideGuests().length) {
-      if (widget.guestListProvider.provideGuests()[i].checkInTime != null) {
-        DateTime recordedDate =
-            widget.guestListProvider.provideGuests()[i].checkInTime!;
-        if (DateProcessor.compareTwoDate(selectedDate, recordedDate)) {
-          _selectedGuests.add(widget.guestListProvider.provideGuests()[i]);
-        }
-      }
-      i++;
-    }
-    return _selectedGuests;
-  }
 
   bool _isUnCheckOutGuest(String guestLastName, String guestFirstName) {
     int i = 0;
@@ -74,16 +60,34 @@ class _GuestListWidgetState extends State<GuestListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    List<Guest> _selectedGuests =
-        List.from(_filterGuestWithDate(_selectedDate));
+    List<Guest> _selectedGuests = List.from(GuestProcessor.filterGuestWithDate(
+        widget.guestListProvider, _selectedDate));
 
     return Scaffold(
       appBar: AppBar(
-          title: const Text('Guest Records'), automaticallyImplyLeading: false),
+          title: const Text("Guest Today's Records"),
+          automaticallyImplyLeading: false),
       body: Column(children: [
-        DateSelectionWidget(
-            dateChanged: (DateTime) =>
-                setState(() => _selectedDate = DateTime)),
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Styles.text('${_selectedDate.toLocal()}'.split(' ')[0],
+                    Styles.middleTextWithDefaultColor),
+                const SizedBox(width: 50),
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute<void>(
+                              builder: (context) => new GuestHistoryListWidget(
+                                  guestListProvider:
+                                      widget.guestListProvider)));
+                    },
+                    child: Text(_historyTxt))
+              ],
+            )),
         Expanded(
             child: ListView.builder(
                 itemCount: _selectedGuests.length,
